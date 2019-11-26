@@ -65,10 +65,14 @@ def positionControl(jointCom={}, gripperCom=""):
     def set_j(limb, joint_name, angle):
         current_position = limb.joint_angle(joint_name)
         joint_command = {joint_name: angle}
+        # velocities = [.1,.1,.1,.1,.1,.1,.1]
+        # accelerations = [.1,.1,.1,.1,.1,.1,.1]
 
         while (abs(current_position - angle) > 0.01 ):
             current_position = limb.joint_angle(joint_name)
             limb.set_joint_positions(joint_command)
+            # print(joint_command.keys())
+            # limb.set_joint_trajectory(joint_command.keys(), joint_command.values(), velocities, accelerations)
 
 
     #Gripper Set
@@ -176,6 +180,7 @@ def main():
 
     # jointCom={0:-0.02516796875, 1:1.19958203125, 2:-3.0417177734375, \
     # 3:1.609376953125, 4:0.032142578125, 5:-1.742896484375, 6:-1.635921875}
+    #5:.433978515625
     jointCom={0:0.1817734375, 1:-0.4024404296875, 2:0, 3:1.4895546875, 4:0, 5:0.433978515625, 6:0}
     positionControl(jointCom, "open")  
 

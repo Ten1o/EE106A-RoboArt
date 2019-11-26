@@ -1,2 +1,2 @@
-control
+ar_track_alvar/ar_track_alvar:ar_track_alvar/ar_track_alvar_msgs:control:lab4_cam
 -DCATKIN_DEVEL_PREFIX=/home/cc/ee106a/fa19/class/ee106a-abk/ros_workspaces/EE106A/workspaces/devel -DCMAKE_INSTALL_PREFIX=/home/cc/ee106a/fa19/class/ee106a-abk/ros_workspaces/EE106A/workspaces/install -G Unix Makefiles
