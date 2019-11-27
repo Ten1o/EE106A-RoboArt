@@ -61,18 +61,28 @@ def positionControl(jointCom={}, gripperCom=""):
 
     joints = limb.joint_names()
     #print(joints)
+
     #Joint Set
+    #This function will set the joint angle for only one joint.
     def set_j(limb, joint_name, angle):
         current_position = limb.joint_angle(joint_name)
         joint_command = {joint_name: angle}
-        # velocities = [.1,.1,.1,.1,.1,.1,.1]
-        # accelerations = [.1,.1,.1,.1,.1,.1,.1]
 
         while (abs(current_position - angle) > 0.01 ):
             current_position = limb.joint_angle(joint_name)
             limb.set_joint_positions(joint_command)
-            # print(joint_command.keys())
-            # limb.set_joint_trajectory(joint_command.keys(), joint_command.values(), velocities, accelerations)
+
+
+    #Trajectory Set
+    #Set the trajectory of all joints at the same time.
+    #joint_names = [str]
+    #angles, velocities, accelerations = [float]
+    def set_t(limb, joint_names, angles, velocities, accelerations):
+        current_position = limb.joint_angles()  #This func return a dictionary of {joint:angle} pairs.    
+        # velocities = [.1,.1,.1,.1,.1,.1,.1]
+        # accelerations = [.1,.1,.1,.1,.1,.1,.1]
+        
+        limb.set_joint_trajectory(joint_names, angles, velocities, accelerations)
 
 
     #Gripper Set
@@ -189,4 +199,5 @@ def main():
 
 
 if __name__ == '__main__':
+    
     main()
