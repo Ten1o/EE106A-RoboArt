@@ -59,6 +59,8 @@
   <build_depend>std_msgs</build_depend>
   <build_depend>tf</build_depend>
   <build_depend>tf2_ros</build_depend>
+  <build_depend>ar_track_alvar</build_depend>
+  <build_export_depend>ar_track_alvar</build_export_depend>
   <build_export_depend>baxter_examples</build_export_depend>
   <build_export_depend>baxter_tools</build_export_depend>
   <build_export_depend>geometry_msgs</build_export_depend>
@@ -69,6 +71,7 @@
   <build_export_depend>std_msgs</build_export_depend>
   <build_export_depend>tf</build_export_depend>
   <build_export_depend>tf2_ros</build_export_depend>
+  <exec_depend>ar_track_alvar</exec_depend>
   <exec_depend>baxter_examples</exec_depend>
   <exec_depend>baxter_tools</exec_depend>
   <exec_depend>geometry_msgs</exec_depend>

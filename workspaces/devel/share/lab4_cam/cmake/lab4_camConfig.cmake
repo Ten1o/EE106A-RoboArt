@@ -67,7 +67,7 @@ set(lab4_cam_CONFIG_INCLUDED TRUE)
 
 # set variables for source/devel/install prefixes
 if("TRUE" STREQUAL "TRUE")
-  set(lab4_cam_SOURCE_PREFIX /home/cc/ee106a/fa19/class/ee106a-abk/ros_workspaces/EE106A/workspaces/src/lab4_cam)
+  set(lab4_cam_SOURCE_PREFIX /home/cc/ee106a/fa19/class/ee106a-abk/ros_workspaces/EE106A/workspaces/src/cam)
   set(lab4_cam_DEVEL_PREFIX /home/cc/ee106a/fa19/class/ee106a-abk/ros_workspaces/EE106A/workspaces/devel)
   set(lab4_cam_INSTALL_PREFIX "")
   set(lab4_cam_PREFIX ${lab4_cam_DEVEL_PREFIX})
@@ -110,7 +110,7 @@ if(NOT "/home/cc/ee106a/fa19/class/ee106a-abk/ros_workspaces/EE106A/workspaces/d
         message(FATAL_ERROR "Project 'lab4_cam' specifies '${idir}' as an include dir, which is not found.  It does not exist in '${include}'.  ${_report}")
       endif()
     else()
-      message(FATAL_ERROR "Project 'lab4_cam' specifies '${idir}' as an include dir, which is not found.  It does neither exist as an absolute directory nor in '/home/cc/ee106a/fa19/class/ee106a-abk/ros_workspaces/EE106A/workspaces/src/lab4_cam/${idir}'.  ${_report}")
+      message(FATAL_ERROR "Project 'lab4_cam' specifies '${idir}' as an include dir, which is not found.  It does neither exist as an absolute directory nor in '/home/cc/ee106a/fa19/class/ee106a-abk/ros_workspaces/EE106A/workspaces/src/cam/${idir}'.  ${_report}")
     endif()
     _list_append_unique(lab4_cam_INCLUDE_DIRS ${include})
   endforeach()

@@ -18,9 +18,10 @@ from moveit_msgs.msg import RobotTrajectory
 from moveit_msgs.msg import OrientationConstraint
 from geometry_msgs.msg import PoseStamped
 
-from path_planner import PathPlanner
-
-
+#from path_planner import PathPlanner
+from pathPlanner import path
+import coorConvert
+import positionControl
 class velocityControl(object):
     """
     A controller object
@@ -49,7 +50,7 @@ class velocityControl(object):
 
     """
 
-    def __init__(self, Kp, Ki, Kd, Kw, limb):
+    def __init__(self, limb):
         """
         Constructor:
 
@@ -61,17 +62,15 @@ class velocityControl(object):
         limb: baxter_interface.Limb or sawyer_interface.Limb
         """
 
-        # If the node is shutdown, call this function
-        rospy.on_shutdown(self.shutdown)
 
-        self._Kp = Kp
-        self._Ki = Ki
-        self._Kd = Kd
-        self._Kw = Kw
+        self._Kp = 0.2 * np.array([0.4, 2, 1.7, 1.5, 2, 2, 3])
+        self._Kd = 0.01 * np.array([2, 1, 2, 0.5, 0.8, 0.8, 0.8])
+        self._Ki = 0.01 * np.array([1.4, 1.4, 1.4, 1, 0.6, 0.6, 0.6])
+        self._Kw = np.array([0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9])
 
-        self._LastError = np.zeros(len(Kd))
+        self._LastError = np.zeros(len(self._Kd))
         self._LastTime = 0;
-        self._IntError = np.zeros(len(Ki))
+        self._IntError = np.zeros(len(self._Ki))
         self._ring_buff = [0.0, 0.0, 0.0]
 
         self._path = RobotTrajectory()
@@ -79,7 +78,8 @@ class velocityControl(object):
         self._maxIndex = 0;
 
         self._limb = limb
-
+        # If the node is shutdown, call this function
+        rospy.on_shutdown(self.shutdown)
         # For Plotting:
         self._times = list()
         self._actual_positions = list()
@@ -98,7 +98,7 @@ class velocityControl(object):
         self._limb.set_joint_velocities(dict(itertools.izip(self._limb.joint_names(), np.zeros(len(self._limb.joint_names())))))
         rospy.sleep(0.1)
 
-    def execute_path(self, path, timeout=100.0, log=True):
+    def execute_path(self, path, timeout=100.0, log=False):
         """
         Execute a given path
 
@@ -207,7 +207,7 @@ class velocityControl(object):
         
         """
         # Make sure you're using the latest time
-        while (not rospy.is_shutdown() and self._curIndex < self._maxIndex and self._path.joint_trajectory.points[self._curIndex+1].time_from_start.to_sec() < t+0.001):
+        while (not rospy.is_shutdown() and self._curIndex < self._maxIndex and self._path.joint_trajectory.points[self._curIndex+1].time_from_start < t+0.001):
             self._curIndex = self._curIndex+1
 
 
@@ -215,8 +215,8 @@ class velocityControl(object):
         current_velocity = np.array([self._limb.joint_velocities()[joint_name] for joint_name in self._path.joint_trajectory.joint_names])
 
         if self._curIndex < self._maxIndex:
-            time_low = self._path.joint_trajectory.points[self._curIndex].time_from_start.to_sec()
-            time_high = self._path.joint_trajectory.points[self._curIndex+1].time_from_start.to_sec()
+            time_low = self._path.joint_trajectory.points[self._curIndex].time_from_start
+            time_high = self._path.joint_trajectory.points[self._curIndex+1].time_from_start
 
             target_position_low = np.array(self._path.joint_trajectory.points[self._curIndex].positions)
             target_velocity_low = np.array(self._path.joint_trajectory.points[self._curIndex].velocities)
@@ -275,37 +275,21 @@ class velocityControl(object):
 
 
 def main():
-    planner = PathPlanner("right_arm")
-    Kp = 0.2 * np.array([0.4, 2, 1.7, 1.5, 2, 2, 3])
-    Kd = 0.01 * np.array([2, 1, 2, 0.5, 0.8, 0.8, 0.8])
-    Ki = 0.01 * np.array([1.4, 1.4, 1.4, 1, 0.6, 0.6, 0.6])
-    Kw = np.array([0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9])
-    controller = velocityControl(Kp, Ki, Kd, Kw, Limb("right"))
+    #planner = PathPlanner("right_arm")
 
+    controller = velocityControl( Limb("right"))
+    
+    [start_x,start_y,h] = [0.4, 0.4, 0]
+    joints_position = coorConvert.cartesian2joint(start_x,start_y,h)
+    positionControl.positionControl(jointCom=joints_position)
 
     while not rospy.is_shutdown():
-        try:
-            goal_1 = PoseStamped()
-            goal_1.header.frame_id = "base"
-
-            #x, y, and z position
-            goal_1.pose.position.x = 0.8
-            goal_1.pose.position.y = 0.05
-            goal_1.pose.position.z = -0.23
-
-            #Orientation as a quaternion
-            goal_1.pose.orientation.x = 0.0
-            goal_1.pose.orientation.y = -1.0
-            goal_1.pose.orientation.z = 0.0
-            goal_1.pose.orientation.w = 0.0
-
-            # Might have to edit this . . . 
-            plan = planner.plan_to_pose(goal_1, list())
-            print(plan)
-            
-            raw_input("Press <Enter> to move the right arm to goal pose 1: ")
-            controller = velocityControl(Kp, Ki, Kd, Kw, Limb("right"))
+        try:            
+            points=[[0.4,0.4],[0.41,0.41],[0.42,0.42],[0.43,0.43],[0.44,0.44],[0.45,0.45],[0.46,0.46],[0.47,0.47],[0.48,0.48],[0.49,0.49],[0.5,0.5]]
+            plan = path(points,0.05,0).path_msg()          
+            controller = velocityControl( Limb("right"))
             flag=controller.execute_path(plan)
+            flag = 1
             if not flag:
                 raise Exception("Execution failed")
         except Exception as e:

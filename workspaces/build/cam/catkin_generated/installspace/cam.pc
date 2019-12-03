@@ -1,0 +1,8 @@
+prefix=/home/cc/ee106a/fa19/class/ee106a-abk/ros_workspaces/EE106A/workspaces/install
+
+Name: cam
+Description: Description of cam
+Version: 0.0.0
+Cflags: -I/home/cc/ee106a/fa19/class/ee106a-abk/ros_workspaces/EE106A/workspaces/install/include
+Libs: -L/home/cc/ee106a/fa19/class/ee106a-abk/ros_workspaces/EE106A/workspaces/install/lib 
+Requires: 

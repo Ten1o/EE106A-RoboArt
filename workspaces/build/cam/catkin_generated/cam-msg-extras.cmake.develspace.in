@@ -1,0 +1,2 @@
+set(cam_MESSAGE_FILES "")
+set(cam_SERVICE_FILES "/home/cc/ee106a/fa19/class/ee106a-abk/ros_workspaces/EE106A/workspaces/src/cam/srv/ImageSrv.srv")

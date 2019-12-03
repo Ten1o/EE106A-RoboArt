@@ -595,108 +595,30 @@ ar_track_alvar_msgs_gennodejs/fast:
 .PHONY : ar_track_alvar_msgs_gennodejs/fast
 
 #=============================================================================
-# Target rules for targets named lab4_cam_generate_messages_nodejs
+# Target rules for targets named cam_generate_messages_eus
 
 # Build rule for target.
-lab4_cam_generate_messages_nodejs: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 lab4_cam_generate_messages_nodejs
-.PHONY : lab4_cam_generate_messages_nodejs
+cam_generate_messages_eus: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 cam_generate_messages_eus
+.PHONY : cam_generate_messages_eus
 
 # fast build rule for target.
-lab4_cam_generate_messages_nodejs/fast:
-	$(MAKE) -f lab4_cam/CMakeFiles/lab4_cam_generate_messages_nodejs.dir/build.make lab4_cam/CMakeFiles/lab4_cam_generate_messages_nodejs.dir/build
-.PHONY : lab4_cam_generate_messages_nodejs/fast
+cam_generate_messages_eus/fast:
+	$(MAKE) -f cam/CMakeFiles/cam_generate_messages_eus.dir/build.make cam/CMakeFiles/cam_generate_messages_eus.dir/build
+.PHONY : cam_generate_messages_eus/fast
 
 #=============================================================================
-# Target rules for targets named lab4_cam_gencpp
+# Target rules for targets named cam_gencpp
 
 # Build rule for target.
-lab4_cam_gencpp: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 lab4_cam_gencpp
-.PHONY : lab4_cam_gencpp
+cam_gencpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 cam_gencpp
+.PHONY : cam_gencpp
 
 # fast build rule for target.
-lab4_cam_gencpp/fast:
-	$(MAKE) -f lab4_cam/CMakeFiles/lab4_cam_gencpp.dir/build.make lab4_cam/CMakeFiles/lab4_cam_gencpp.dir/build
-.PHONY : lab4_cam_gencpp/fast
-
-#=============================================================================
-# Target rules for targets named lab4_cam_generate_messages_cpp
-
-# Build rule for target.
-lab4_cam_generate_messages_cpp: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 lab4_cam_generate_messages_cpp
-.PHONY : lab4_cam_generate_messages_cpp
-
-# fast build rule for target.
-lab4_cam_generate_messages_cpp/fast:
-	$(MAKE) -f lab4_cam/CMakeFiles/lab4_cam_generate_messages_cpp.dir/build.make lab4_cam/CMakeFiles/lab4_cam_generate_messages_cpp.dir/build
-.PHONY : lab4_cam_generate_messages_cpp/fast
-
-#=============================================================================
-# Target rules for targets named _lab4_cam_generate_messages_check_deps_ImageSrv
-
-# Build rule for target.
-_lab4_cam_generate_messages_check_deps_ImageSrv: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 _lab4_cam_generate_messages_check_deps_ImageSrv
-.PHONY : _lab4_cam_generate_messages_check_deps_ImageSrv
-
-# fast build rule for target.
-_lab4_cam_generate_messages_check_deps_ImageSrv/fast:
-	$(MAKE) -f lab4_cam/CMakeFiles/_lab4_cam_generate_messages_check_deps_ImageSrv.dir/build.make lab4_cam/CMakeFiles/_lab4_cam_generate_messages_check_deps_ImageSrv.dir/build
-.PHONY : _lab4_cam_generate_messages_check_deps_ImageSrv/fast
-
-#=============================================================================
-# Target rules for targets named lab4_cam_generate_messages_py
-
-# Build rule for target.
-lab4_cam_generate_messages_py: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 lab4_cam_generate_messages_py
-.PHONY : lab4_cam_generate_messages_py
-
-# fast build rule for target.
-lab4_cam_generate_messages_py/fast:
-	$(MAKE) -f lab4_cam/CMakeFiles/lab4_cam_generate_messages_py.dir/build.make lab4_cam/CMakeFiles/lab4_cam_generate_messages_py.dir/build
-.PHONY : lab4_cam_generate_messages_py/fast
-
-#=============================================================================
-# Target rules for targets named lab4_cam_generate_messages
-
-# Build rule for target.
-lab4_cam_generate_messages: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 lab4_cam_generate_messages
-.PHONY : lab4_cam_generate_messages
-
-# fast build rule for target.
-lab4_cam_generate_messages/fast:
-	$(MAKE) -f lab4_cam/CMakeFiles/lab4_cam_generate_messages.dir/build.make lab4_cam/CMakeFiles/lab4_cam_generate_messages.dir/build
-.PHONY : lab4_cam_generate_messages/fast
-
-#=============================================================================
-# Target rules for targets named sensor_msgs_generate_messages_cpp
-
-# Build rule for target.
-sensor_msgs_generate_messages_cpp: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 sensor_msgs_generate_messages_cpp
-.PHONY : sensor_msgs_generate_messages_cpp
-
-# fast build rule for target.
-sensor_msgs_generate_messages_cpp/fast:
-	$(MAKE) -f lab4_cam/CMakeFiles/sensor_msgs_generate_messages_cpp.dir/build.make lab4_cam/CMakeFiles/sensor_msgs_generate_messages_cpp.dir/build
-.PHONY : sensor_msgs_generate_messages_cpp/fast
-
-#=============================================================================
-# Target rules for targets named lab4_cam_generate_messages_eus
-
-# Build rule for target.
-lab4_cam_generate_messages_eus: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 lab4_cam_generate_messages_eus
-.PHONY : lab4_cam_generate_messages_eus
-
-# fast build rule for target.
-lab4_cam_generate_messages_eus/fast:
-	$(MAKE) -f lab4_cam/CMakeFiles/lab4_cam_generate_messages_eus.dir/build.make lab4_cam/CMakeFiles/lab4_cam_generate_messages_eus.dir/build
-.PHONY : lab4_cam_generate_messages_eus/fast
+cam_gencpp/fast:
+	$(MAKE) -f cam/CMakeFiles/cam_gencpp.dir/build.make cam/CMakeFiles/cam_gencpp.dir/build
+.PHONY : cam_gencpp/fast
 
 #=============================================================================
 # Target rules for targets named sensor_msgs_generate_messages_lisp
@@ -708,34 +630,47 @@ sensor_msgs_generate_messages_lisp: cmake_check_build_system
 
 # fast build rule for target.
 sensor_msgs_generate_messages_lisp/fast:
-	$(MAKE) -f lab4_cam/CMakeFiles/sensor_msgs_generate_messages_lisp.dir/build.make lab4_cam/CMakeFiles/sensor_msgs_generate_messages_lisp.dir/build
+	$(MAKE) -f cam/CMakeFiles/sensor_msgs_generate_messages_lisp.dir/build.make cam/CMakeFiles/sensor_msgs_generate_messages_lisp.dir/build
 .PHONY : sensor_msgs_generate_messages_lisp/fast
 
 #=============================================================================
-# Target rules for targets named lab4_cam_generate_messages_lisp
+# Target rules for targets named cam_generate_messages_py
 
 # Build rule for target.
-lab4_cam_generate_messages_lisp: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 lab4_cam_generate_messages_lisp
-.PHONY : lab4_cam_generate_messages_lisp
+cam_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 cam_generate_messages_py
+.PHONY : cam_generate_messages_py
 
 # fast build rule for target.
-lab4_cam_generate_messages_lisp/fast:
-	$(MAKE) -f lab4_cam/CMakeFiles/lab4_cam_generate_messages_lisp.dir/build.make lab4_cam/CMakeFiles/lab4_cam_generate_messages_lisp.dir/build
-.PHONY : lab4_cam_generate_messages_lisp/fast
+cam_generate_messages_py/fast:
+	$(MAKE) -f cam/CMakeFiles/cam_generate_messages_py.dir/build.make cam/CMakeFiles/cam_generate_messages_py.dir/build
+.PHONY : cam_generate_messages_py/fast
 
 #=============================================================================
-# Target rules for targets named sensor_msgs_generate_messages_py
+# Target rules for targets named _cam_generate_messages_check_deps_ImageSrv
 
 # Build rule for target.
-sensor_msgs_generate_messages_py: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 sensor_msgs_generate_messages_py
-.PHONY : sensor_msgs_generate_messages_py
+_cam_generate_messages_check_deps_ImageSrv: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _cam_generate_messages_check_deps_ImageSrv
+.PHONY : _cam_generate_messages_check_deps_ImageSrv
 
 # fast build rule for target.
-sensor_msgs_generate_messages_py/fast:
-	$(MAKE) -f lab4_cam/CMakeFiles/sensor_msgs_generate_messages_py.dir/build.make lab4_cam/CMakeFiles/sensor_msgs_generate_messages_py.dir/build
-.PHONY : sensor_msgs_generate_messages_py/fast
+_cam_generate_messages_check_deps_ImageSrv/fast:
+	$(MAKE) -f cam/CMakeFiles/_cam_generate_messages_check_deps_ImageSrv.dir/build.make cam/CMakeFiles/_cam_generate_messages_check_deps_ImageSrv.dir/build
+.PHONY : _cam_generate_messages_check_deps_ImageSrv/fast
+
+#=============================================================================
+# Target rules for targets named cam_generate_messages
+
+# Build rule for target.
+cam_generate_messages: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 cam_generate_messages
+.PHONY : cam_generate_messages
+
+# fast build rule for target.
+cam_generate_messages/fast:
+	$(MAKE) -f cam/CMakeFiles/cam_generate_messages.dir/build.make cam/CMakeFiles/cam_generate_messages.dir/build
+.PHONY : cam_generate_messages/fast
 
 #=============================================================================
 # Target rules for targets named sensor_msgs_generate_messages_eus
@@ -747,8 +682,34 @@ sensor_msgs_generate_messages_eus: cmake_check_build_system
 
 # fast build rule for target.
 sensor_msgs_generate_messages_eus/fast:
-	$(MAKE) -f lab4_cam/CMakeFiles/sensor_msgs_generate_messages_eus.dir/build.make lab4_cam/CMakeFiles/sensor_msgs_generate_messages_eus.dir/build
+	$(MAKE) -f cam/CMakeFiles/sensor_msgs_generate_messages_eus.dir/build.make cam/CMakeFiles/sensor_msgs_generate_messages_eus.dir/build
 .PHONY : sensor_msgs_generate_messages_eus/fast
+
+#=============================================================================
+# Target rules for targets named sensor_msgs_generate_messages_cpp
+
+# Build rule for target.
+sensor_msgs_generate_messages_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 sensor_msgs_generate_messages_cpp
+.PHONY : sensor_msgs_generate_messages_cpp
+
+# fast build rule for target.
+sensor_msgs_generate_messages_cpp/fast:
+	$(MAKE) -f cam/CMakeFiles/sensor_msgs_generate_messages_cpp.dir/build.make cam/CMakeFiles/sensor_msgs_generate_messages_cpp.dir/build
+.PHONY : sensor_msgs_generate_messages_cpp/fast
+
+#=============================================================================
+# Target rules for targets named sensor_msgs_generate_messages_py
+
+# Build rule for target.
+sensor_msgs_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 sensor_msgs_generate_messages_py
+.PHONY : sensor_msgs_generate_messages_py
+
+# fast build rule for target.
+sensor_msgs_generate_messages_py/fast:
+	$(MAKE) -f cam/CMakeFiles/sensor_msgs_generate_messages_py.dir/build.make cam/CMakeFiles/sensor_msgs_generate_messages_py.dir/build
+.PHONY : sensor_msgs_generate_messages_py/fast
 
 #=============================================================================
 # Target rules for targets named sensor_msgs_generate_messages_nodejs
@@ -760,60 +721,99 @@ sensor_msgs_generate_messages_nodejs: cmake_check_build_system
 
 # fast build rule for target.
 sensor_msgs_generate_messages_nodejs/fast:
-	$(MAKE) -f lab4_cam/CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/build.make lab4_cam/CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/build
+	$(MAKE) -f cam/CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/build.make cam/CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/build
 .PHONY : sensor_msgs_generate_messages_nodejs/fast
 
 #=============================================================================
-# Target rules for targets named lab4_cam_geneus
+# Target rules for targets named cam_geneus
 
 # Build rule for target.
-lab4_cam_geneus: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 lab4_cam_geneus
-.PHONY : lab4_cam_geneus
+cam_geneus: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 cam_geneus
+.PHONY : cam_geneus
 
 # fast build rule for target.
-lab4_cam_geneus/fast:
-	$(MAKE) -f lab4_cam/CMakeFiles/lab4_cam_geneus.dir/build.make lab4_cam/CMakeFiles/lab4_cam_geneus.dir/build
-.PHONY : lab4_cam_geneus/fast
+cam_geneus/fast:
+	$(MAKE) -f cam/CMakeFiles/cam_geneus.dir/build.make cam/CMakeFiles/cam_geneus.dir/build
+.PHONY : cam_geneus/fast
 
 #=============================================================================
-# Target rules for targets named lab4_cam_genlisp
+# Target rules for targets named cam_genlisp
 
 # Build rule for target.
-lab4_cam_genlisp: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 lab4_cam_genlisp
-.PHONY : lab4_cam_genlisp
+cam_genlisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 cam_genlisp
+.PHONY : cam_genlisp
 
 # fast build rule for target.
-lab4_cam_genlisp/fast:
-	$(MAKE) -f lab4_cam/CMakeFiles/lab4_cam_genlisp.dir/build.make lab4_cam/CMakeFiles/lab4_cam_genlisp.dir/build
-.PHONY : lab4_cam_genlisp/fast
+cam_genlisp/fast:
+	$(MAKE) -f cam/CMakeFiles/cam_genlisp.dir/build.make cam/CMakeFiles/cam_genlisp.dir/build
+.PHONY : cam_genlisp/fast
 
 #=============================================================================
-# Target rules for targets named lab4_cam_genpy
+# Target rules for targets named cam_generate_messages_lisp
 
 # Build rule for target.
-lab4_cam_genpy: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 lab4_cam_genpy
-.PHONY : lab4_cam_genpy
+cam_generate_messages_lisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 cam_generate_messages_lisp
+.PHONY : cam_generate_messages_lisp
 
 # fast build rule for target.
-lab4_cam_genpy/fast:
-	$(MAKE) -f lab4_cam/CMakeFiles/lab4_cam_genpy.dir/build.make lab4_cam/CMakeFiles/lab4_cam_genpy.dir/build
-.PHONY : lab4_cam_genpy/fast
+cam_generate_messages_lisp/fast:
+	$(MAKE) -f cam/CMakeFiles/cam_generate_messages_lisp.dir/build.make cam/CMakeFiles/cam_generate_messages_lisp.dir/build
+.PHONY : cam_generate_messages_lisp/fast
 
 #=============================================================================
-# Target rules for targets named lab4_cam_gennodejs
+# Target rules for targets named cam_generate_messages_nodejs
 
 # Build rule for target.
-lab4_cam_gennodejs: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 lab4_cam_gennodejs
-.PHONY : lab4_cam_gennodejs
+cam_generate_messages_nodejs: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 cam_generate_messages_nodejs
+.PHONY : cam_generate_messages_nodejs
 
 # fast build rule for target.
-lab4_cam_gennodejs/fast:
-	$(MAKE) -f lab4_cam/CMakeFiles/lab4_cam_gennodejs.dir/build.make lab4_cam/CMakeFiles/lab4_cam_gennodejs.dir/build
-.PHONY : lab4_cam_gennodejs/fast
+cam_generate_messages_nodejs/fast:
+	$(MAKE) -f cam/CMakeFiles/cam_generate_messages_nodejs.dir/build.make cam/CMakeFiles/cam_generate_messages_nodejs.dir/build
+.PHONY : cam_generate_messages_nodejs/fast
+
+#=============================================================================
+# Target rules for targets named cam_gennodejs
+
+# Build rule for target.
+cam_gennodejs: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 cam_gennodejs
+.PHONY : cam_gennodejs
+
+# fast build rule for target.
+cam_gennodejs/fast:
+	$(MAKE) -f cam/CMakeFiles/cam_gennodejs.dir/build.make cam/CMakeFiles/cam_gennodejs.dir/build
+.PHONY : cam_gennodejs/fast
+
+#=============================================================================
+# Target rules for targets named cam_genpy
+
+# Build rule for target.
+cam_genpy: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 cam_genpy
+.PHONY : cam_genpy
+
+# fast build rule for target.
+cam_genpy/fast:
+	$(MAKE) -f cam/CMakeFiles/cam_genpy.dir/build.make cam/CMakeFiles/cam_genpy.dir/build
+.PHONY : cam_genpy/fast
+
+#=============================================================================
+# Target rules for targets named cam_generate_messages_cpp
+
+# Build rule for target.
+cam_generate_messages_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 cam_generate_messages_cpp
+.PHONY : cam_generate_messages_cpp
+
+# fast build rule for target.
+cam_generate_messages_cpp/fast:
+	$(MAKE) -f cam/CMakeFiles/cam_generate_messages_cpp.dir/build.make cam/CMakeFiles/cam_generate_messages_cpp.dir/build
+.PHONY : cam_generate_messages_cpp/fast
 
 #=============================================================================
 # Target rules for targets named _run_tests_ar_track_alvar_rostest_test_marker_arg_config-full.test
@@ -3032,23 +3032,23 @@ help:
 	@echo "... ar_track_alvar_msgs_gencpp"
 	@echo "... ar_track_alvar_msgs_generate_messages_nodejs"
 	@echo "... ar_track_alvar_msgs_gennodejs"
-	@echo "... lab4_cam_generate_messages_nodejs"
-	@echo "... lab4_cam_gencpp"
-	@echo "... lab4_cam_generate_messages_cpp"
-	@echo "... _lab4_cam_generate_messages_check_deps_ImageSrv"
-	@echo "... lab4_cam_generate_messages_py"
-	@echo "... lab4_cam_generate_messages"
-	@echo "... sensor_msgs_generate_messages_cpp"
-	@echo "... lab4_cam_generate_messages_eus"
+	@echo "... cam_generate_messages_eus"
+	@echo "... cam_gencpp"
 	@echo "... sensor_msgs_generate_messages_lisp"
-	@echo "... lab4_cam_generate_messages_lisp"
-	@echo "... sensor_msgs_generate_messages_py"
+	@echo "... cam_generate_messages_py"
+	@echo "... _cam_generate_messages_check_deps_ImageSrv"
+	@echo "... cam_generate_messages"
 	@echo "... sensor_msgs_generate_messages_eus"
+	@echo "... sensor_msgs_generate_messages_cpp"
+	@echo "... sensor_msgs_generate_messages_py"
 	@echo "... sensor_msgs_generate_messages_nodejs"
-	@echo "... lab4_cam_geneus"
-	@echo "... lab4_cam_genlisp"
-	@echo "... lab4_cam_genpy"
-	@echo "... lab4_cam_gennodejs"
+	@echo "... cam_geneus"
+	@echo "... cam_genlisp"
+	@echo "... cam_generate_messages_lisp"
+	@echo "... cam_generate_messages_nodejs"
+	@echo "... cam_gennodejs"
+	@echo "... cam_genpy"
+	@echo "... cam_generate_messages_cpp"
 	@echo "... _run_tests_ar_track_alvar_rostest_test_marker_arg_config-full.test"
 	@echo "... run_tests_ar_track_alvar_rostest_test_marker_arg_config-full.test"
 	@echo "... _run_tests_ar_track_alvar_rostest_test_marker_arg_config-basic.test"

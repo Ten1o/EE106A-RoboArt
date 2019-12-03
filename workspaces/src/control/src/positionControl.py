@@ -24,7 +24,7 @@ import intera_interface
 import intera_external_devices
 
 from intera_interface import CHECK_VERSION
-
+import numpy as np
 
 #jointCom = {'joint_num':'joint_angle', ...}
 #gripperCom=["close" or "open" or "calibrate"]
@@ -60,7 +60,7 @@ def positionControl(jointCom={}, gripperCom=""):
         has_gripper = True
 
     joints = limb.joint_names()
-    #print(joints)
+
 
     #Joint Set
     #This function will set the joint angle for only one joint.
@@ -72,6 +72,22 @@ def positionControl(jointCom={}, gripperCom=""):
             current_position = limb.joint_angle(joint_name)
             limb.set_joint_positions(joint_command)
 
+    def set_all_j(limb,jointCom):
+        
+        names = ['right_j0', 'right_j1', 'right_j2', 'right_j3', 'right_j4', 'right_j5', 'right_j6']
+        dic ={}
+        for i in range (len(names)):
+            dic[names[i]] = jointCom[i]
+        current_position = limb.joint_angles()
+        curr_angles = np.array([current_position[key] for key in sorted(current_position.keys())])
+        dest_angles = np.array([jointCom[key] for key in sorted(jointCom.keys())])
+        error = np.sum(np.abs(curr_angles-dest_angles))
+
+        while (error > 0.07 ):
+            current_position = limb.joint_angles()
+            curr_angles = np.array([current_position[key] for key in sorted(current_position.keys())])
+            error = np.sum(np.abs(curr_angles-dest_angles))
+            limb.set_joint_positions(dic)
 
     #Trajectory Set
     #Set the trajectory of all joints at the same time.
@@ -96,10 +112,10 @@ def positionControl(jointCom={}, gripperCom=""):
                 gripper.calibrate()
     
     #Execution
-    for key, val in jointCom.items():
+    # for key, val in jointCom.items():
 
-        set_j(limb, joints[key], val)
-
+    #     set_j(limb, joints[key], val)
+    set_all_j(limb,jointCom)
     set_g(gripperCom)
 
 
