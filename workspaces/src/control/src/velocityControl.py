@@ -286,10 +286,13 @@ def main():
     while not rospy.is_shutdown():
         try:            
             points=[[0.4,0.4],[0.41,0.41],[0.42,0.42],[0.43,0.43],[0.44,0.44],[0.45,0.45],[0.46,0.46],[0.47,0.47],[0.48,0.48],[0.49,0.49],[0.5,0.5]]
-            plan = path(points,0.05,0).path_msg()          
+            my_path = path(points,0.05,0)
+            plan =my_path.path_msg()          
             controller = velocityControl( Limb("right"))
-            flag=controller.execute_path(plan)
-            flag = 1
+            if my_path.valid:
+                flag=controller.execute_path(plan)
+            else:
+                flag=0
             if not flag:
                 raise Exception("Execution failed")
         except Exception as e:

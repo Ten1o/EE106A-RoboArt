@@ -25,7 +25,7 @@ class path(object):
 		self.positions = self.len2angle()
 		self.time_interval = self.time_interval(np.array(points))
 		self.velocities = self.velocities() # n*7
-
+		self.valid =True
 	def len2angle(self):
 	    # r:float , h(height):float 
 	    # r is the horizontal distance between joint_1 and joint_5 
@@ -37,7 +37,7 @@ class path(object):
 	    b=2*np.arctan((8*h + np.sqrt(-(4*(h**2) + 25*np.square(r))*(4*h**2 + 25*np.square(r) - 16)))/(4*h**2 + 25*np.square(r) + 20*r))
 	    t1 = -a
 	    t3 = a+b
-	    t5 = np.pi/2-b
+	    t5 = -b
 	    # return theta1, theta3, theta5, which can be applied directly in positionControl()
 	    ret=np.vstack((theta, t1, np.zeros(self.number), t3, np.zeros(self.number), t5, np.zeros(self.number)))
 	    return np.transpose(ret)
@@ -72,6 +72,10 @@ class path(object):
 		dis = a-b
 		velocities = dis/time.reshape(self.number-1,1)
 		velocities =np.vstack((velocities,np.zeros(7)))
+		for i in range(len(velocities)):
+			if (velocities[i] is np.nan):
+				velocities[i] = 0
+				self.valid = False
 		return velocities
 
 
@@ -84,7 +88,7 @@ class path(object):
 		for i in range(self.number):
 			point=JointTrajectoryPoint()
 			point.positions = self.positions[i]
-			point.velocities = self.velocities[i]
+			point.velocities = self.velocities[i]			
 			point.time_from_start = time_from_start[i]
 			path.joint_trajectory.points[i]=point
 		return path

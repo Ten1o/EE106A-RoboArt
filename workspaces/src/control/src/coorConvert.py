@@ -12,7 +12,7 @@ def polar2joint(r,h=0.43,angle=0.1817734375):
     b=2*np.arctan((8*h + (-(4*h**2 + 25*r**2)*(4*h**2 + 25*r**2 - 16))**(0.5))/(4*h**2 + 25*r**2 + 20*r))
     t1 = -a
     t3 = a+b
-    t5 = np.pi/2-b
+    t5 = -b
 
     # return theta1, theta3, theta5, which can be applied directly in positionControl()
     return {0:angle, 1:t1, 2:0, 3:t3, 4:0, 5:t5, 6:0}

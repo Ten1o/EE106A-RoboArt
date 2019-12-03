@@ -3,6 +3,7 @@ from ar_track_alvar_msgs.msg  import  AlvarMarkers
 import numpy as np
 import positionControl
 from velocityControl import *
+import coorConvert
 import tf2_ros
 #pointA,pointB = [x,y]
 def generateLine(pointA,pointB):
@@ -10,7 +11,7 @@ def generateLine(pointA,pointB):
     numPoints = int(length / 0.01)
     dx = (- pointA[0] + pointB[0])/numPoints
     dy = (- pointA[1] + pointB[1])/numPoints
-    points = [[pointA[0]+i*dx, pointA[1]+i*dy] for i in range(numPoints + 1)]
+    points = [[pointA[0]+i*dx, pointA[1]+i*dy] for i in range(numPoints)]
     return points
 
 #points = [[x1,y1],[x2,y2],...]
@@ -27,8 +28,8 @@ class coordinate(object):
         self.dectAR()
 
     def dectAR(self):
-        initialPoint = [0.5,0.58916,0.19804] #position for right_hand_camera
-        goalPoint = [0.5,-0.62146,0.19804] #position for right_hand_camera
+        initialPoint = [0.49,0.58916,0.19804] #position for right_hand_camera
+        goalPoint = [0.49,-0.62146,0.19804] #position for right_hand_camera
         [start_x,start_y,h] = initialPoint
         joints_position = coorConvert.cartesian2joint(start_x,start_y,h)
         positionControl.positionControl(jointCom=joints_position)
@@ -46,10 +47,10 @@ class coordinate(object):
             print e
 
 
+
 def test():
     rospy.init_node('testController', anonymous=True)
     coor = coordinate('base','base')
-    coor.dectAR()
 
 if __name__ == '__main__':
     test()
