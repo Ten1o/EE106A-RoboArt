@@ -16,28 +16,32 @@ class path(object):
 	"""docstring for pathPlanner"""
 	#points [[x1,y1],[x2,y2]]
 	#velocity: float
-	def __init__(self, points,velocity,h):
+	#mode = 1: gripper orthogonal to ground
+	#mode = 0: gripper parallel to ground
+	def __init__(self, points, velocity, h, mode=1):
 
 		self.points = self.xy2rt(np.array(points)) #array([[r1,theta1],[r2,theta2],...])
 		self.velocity = velocity
 		self.height = h
+		self.mode = mode
 		self.number = len(points)
-		self.positions = self.len2angle()
+		self.positions = self.len2angle(self.height)
+		self.positions_offset = self.len2angle(self.height+0.01)
 		self.time_interval = self.time_interval(np.array(points))
 		self.velocities = self.velocities() # n*7
 		self.valid =True
-	def len2angle(self):
+	def len2angle(self,h):
 	    # r:float , h(height):float 
 	    # r is the horizontal distance between joint_1 and joint_5 
 	    # h is the height between joint_1 and joint_5
 	    r=self.points[:,0]
 	    theta=self.points[:,1]
-	    h=self.height
+
 	    a=2*np.arctan((8*h + np.sqrt(-(4*(h**2) + 25*np.square(r))*(4*h**2 + 25*np.square(r) - 16)))/(4*h**2 + 25*np.square(r) + 20*r) - (16*h)/(4*h**2 + 25*np.square(r) + 20*r))
 	    b=2*np.arctan((8*h + np.sqrt(-(4*(h**2) + 25*np.square(r))*(4*h**2 + 25*np.square(r) - 16)))/(4*h**2 + 25*np.square(r) + 20*r))
 	    t1 = -a
 	    t3 = a+b
-	    t5 = -b
+	    t5 = -b+np.pi/2*self.mode
 	    # return theta1, theta3, theta5, which can be applied directly in positionControl()
 	    ret=np.vstack((theta, t1, np.zeros(self.number), t3, np.zeros(self.number), t5, np.zeros(self.number)))
 	    return np.transpose(ret)
@@ -65,7 +69,7 @@ class path(object):
 		return ret
 	def velocities(self):
 		time=np.delete(self.time_interval,0)
-		a = np.copy(self.positions)
+		a = np.copy(self.positions_offset)
 		b = np.copy(self.positions)
 		a = np.delete(a,0,axis=0)
 		b = np.delete(b,-1,axis=0)

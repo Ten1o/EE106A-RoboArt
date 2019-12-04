@@ -17,11 +17,12 @@ from moveit_msgs.msg import RobotTrajectory
 
 from moveit_msgs.msg import OrientationConstraint
 from geometry_msgs.msg import PoseStamped
-
+import arDetect
 #from path_planner import PathPlanner
 from pathPlanner import path
 import coorConvert
 import positionControl
+import tf2_ros
 class velocityControl(object):
     """
     A controller object
@@ -50,7 +51,7 @@ class velocityControl(object):
 
     """
 
-    def __init__(self, limb):
+    def __init__(self, limb, arDetectInfo={}):
         """
         Constructor:
 
@@ -67,6 +68,7 @@ class velocityControl(object):
         self._Kd = 0.01 * np.array([2, 1, 2, 0.5, 0.8, 0.8, 0.8])
         self._Ki = 0.01 * np.array([1.4, 1.4, 1.4, 1, 0.6, 0.6, 0.6])
         self._Kw = np.array([0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9])
+        self.arDetectInfo = arDetectInfo
 
         self._LastError = np.zeros(len(self._Kd))
         self._LastTime = 0;
@@ -86,7 +88,7 @@ class velocityControl(object):
         self._actual_velocities = list()
         self._target_positions = list()
         self._target_velocities = list()
-
+        
     
     def shutdown(self):
         """
@@ -97,6 +99,7 @@ class velocityControl(object):
         # Set velocities to zero
         self._limb.set_joint_velocities(dict(itertools.izip(self._limb.joint_names(), np.zeros(len(self._limb.joint_names())))))
         rospy.sleep(0.1)
+
 
     def execute_path(self, path, timeout=100.0, log=False):
         """
@@ -135,29 +138,71 @@ class velocityControl(object):
         
         r = rospy.Rate(200)
 
-        while not rospy.is_shutdown():
-            # Find the time from start
-            t = (rospy.Time.now() - startTime).to_sec()
+        if self.arDetectInfo == {}: 
+            
+            while not rospy.is_shutdown():
+                # Find the time from start
+                t = (rospy.Time.now() - startTime).to_sec()
 
-            # If the controller has timed out, stop moving and return false
-            if timeout is not None and t >= timeout:
-                # Set velocities to zero
-                self._limb.set_joint_velocities(dict(itertools.izip(self._limb.joint_names(), np.zeros(len(self._limb.joint_names())))))
-                return False
+                # If the controller has timed out, stop moving and return false
+                if timeout is not None and t >= timeout:
+                    # Set velocities to zero
+                    self._limb.set_joint_velocities(dict(itertools.izip(self._limb.joint_names(), np.zeros(len(self._limb.joint_names())))))
+                    return False
 
-            # Get the input for this time
-            u = self.step_control(t)
+                # Get the input for this time
+                u = self.step_control(t)
 
-            # Set the joint velocities
-            self._limb.set_joint_velocities(dict(itertools.izip(self._limb.joint_names(), u)))
-            # Sleep for a defined time (to let the robot move)
-            r.sleep()
+                # Set the joint velocities
+                self._limb.set_joint_velocities(dict(itertools.izip(self._limb.joint_names(), u)))
+                # Sleep for a defined time (to let the robot move)
+                r.sleep()
 
-            # Once the end of the path has been reached, stop moving and break
-            if self._curIndex >= self._maxIndex:
-                # Set velocities to zero
-                self._limb.set_joint_velocities(dict(itertools.izip(self._limb.joint_names(), np.zeros(len(self._limb.joint_names())))))
-                break
+                # Once the end of the path has been reached, stop moving and break
+                if self._curIndex >= self._maxIndex:
+                    # Set velocities to zero
+                    self._limb.set_joint_velocities(dict(itertools.izip(self._limb.joint_names(), np.zeros(len(self._limb.joint_names())))))
+                    break
+        else: #AR Detect Mode on.
+            print(self.arDetectInfo)
+            tfBuffer1 = tf2_ros.Buffer()
+            tfListener1 = tf2_ros.TransformListener(tfBuffer1)
+            tfBuffer2 = tf2_ros.Buffer()
+            tfListener2 = tf2_ros.TransformListener(tfBuffer2)
+
+            while not rospy.is_shutdown():
+                # Find the time from start
+                t = (rospy.Time.now() - startTime).to_sec()
+
+                # If the controller has timed out, stop moving and return false
+                if timeout is not None and t >= timeout:
+                    # Set velocities to zero
+                    self._limb.set_joint_velocities(dict(itertools.izip(self._limb.joint_names(), np.zeros(len(self._limb.joint_names())))))
+                    return False
+
+                # Get the input for this time
+                u = self.step_control(t)
+
+                # Set the joint velocities
+                self._limb.set_joint_velocities(dict(itertools.izip(self._limb.joint_names(), u)))
+                # Sleep for a defined time (to let the robot move)
+                r.sleep()
+
+                #Save the AR coords.
+
+                try:
+                    self.arDetectInfo['coords'][0] = tfBuffer1.lookup_transform('base', self.arDetectInfo['names'][0], rospy.Time())
+                    self.arDetectInfo['coords'][1] = tfBuffer2.lookup_transform('base', self.arDetectInfo['names'][1], rospy.Time())
+                except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
+                    pass
+
+                # Once the end of the path has been reached, stop moving and break
+                if self._curIndex >= self._maxIndex:
+                    # Set velocities to zero
+                    self._limb.set_joint_velocities(dict(itertools.izip(self._limb.joint_names(), np.zeros(len(self._limb.joint_names())))))
+                    break
+
+
 
         if log:
             import matplotlib.pyplot as plt
@@ -276,29 +321,52 @@ class velocityControl(object):
 
 def main():
     #planner = PathPlanner("right_arm")
-
     controller = velocityControl( Limb("right"))
     
-    [start_x,start_y,h] = [0.4, 0.4, 0]
+    [start_x,start_y,h] = [0.54, 0.30, -0.00288962+0.38]
     joints_position = coorConvert.cartesian2joint(start_x,start_y,h)
     positionControl.positionControl(jointCom=joints_position)
 
+    [start_x,start_y,h] = [0.54, 0.30, -0.00288962+0.420]
+    joints_position = coorConvert.cartesian2joint(start_x,start_y,h)
+    positionControl.positionControl(jointCom=joints_position)
+
+
+
     while not rospy.is_shutdown():
-        try:            
-            points=[[0.4,0.4],[0.41,0.41],[0.42,0.42],[0.43,0.43],[0.44,0.44],[0.45,0.45],[0.46,0.46],[0.47,0.47],[0.48,0.48],[0.49,0.49],[0.5,0.5]]
-            my_path = path(points,0.05,0)
-            plan =my_path.path_msg()          
+        try:
+            pointA = [0.54, 0.30]
+            pointB = [0.48, 0.08]
+            pointC = [0.72, 0.01]           
+            points = arDetect.generateLine(pointA,pointB)
+            points2 = arDetect.generateLine(pointB,pointC)
+            my_path = path(points,0.02,h)
+            my_path2 = path(points2,0.02,h)
+            plan = my_path.path_msg()       
+            plan2 = my_path2.path_msg()
             controller = velocityControl( Limb("right"))
             if my_path.valid:
                 flag=controller.execute_path(plan)
+                pass
             else:
                 flag=0
+
+            if my_path2.valid:
+                flag=controller.execute_path(plan2)
+                pass
+            else:
+                flag=0
+
             if not flag:
                 raise Exception("Execution failed")
         except Exception as e:
             print e
         else:
             break
+
+    [start_x,start_y,h] = [0.72, 0.01, -0.00288962+0.35]
+    joints_position = coorConvert.cartesian2joint(start_x,start_y,h)
+    positionControl.positionControl(jointCom=joints_position)
 
 
 if __name__ == '__main__': 

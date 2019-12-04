@@ -23,6 +23,9 @@ import rospy
 import intera_interface
 import intera_external_devices
 
+#from baxter_interface import gripper as robot_gripper
+from intera_interface import gripper as robot_gripper
+
 from intera_interface import CHECK_VERSION
 import numpy as np
 
@@ -82,12 +85,13 @@ def positionControl(jointCom={}, gripperCom=""):
         curr_angles = np.array([current_position[key] for key in sorted(current_position.keys())])
         dest_angles = np.array([jointCom[key] for key in sorted(jointCom.keys())])
         error = np.sum(np.abs(curr_angles-dest_angles))
-
-        while (error > 0.07 ):
+        r = rospy.Rate(200)
+        while (error > 0.02 ):
             current_position = limb.joint_angles()
             curr_angles = np.array([current_position[key] for key in sorted(current_position.keys())])
             error = np.sum(np.abs(curr_angles-dest_angles))
             limb.set_joint_positions(dic)
+            r.sleep()
 
     #Trajectory Set
     #Set the trajectory of all joints at the same time.
@@ -106,17 +110,24 @@ def positionControl(jointCom={}, gripperCom=""):
         if has_gripper:
             if action == "close":
                 gripper.close()
+                print('Gripper closing...')
             elif action == "open":
                 gripper.open()
+                print('Gripper opening...')
             elif action == "calibrate":
                 gripper.calibrate()
+                print('Gripper calibrating...')
     
     #Execution
     # for key, val in jointCom.items():
 
     #     set_j(limb, joints[key], val)
-    set_all_j(limb,jointCom)
-    set_g(gripperCom)
+    if(jointCom != {}):
+        set_all_j(limb,jointCom)
+        set_g(gripperCom)
+    else:
+        set_g(gripperCom)
+
 
 
 
@@ -207,8 +218,11 @@ def main():
     # jointCom={0:-0.02516796875, 1:1.19958203125, 2:-3.0417177734375, \
     # 3:1.609376953125, 4:0.032142578125, 5:-1.742896484375, 6:-1.635921875}
     #5:.433978515625
-    jointCom={0:0.1817734375, 1:-0.4024404296875, 2:0, 3:1.4895546875, 4:0, 5:0.433978515625, 6:0}
-    positionControl(jointCom, "open")  
+    # jointCom={0:0.27098046875, 1:-0.503345703125, 2:0, 3:1.4947724609375, 4:0, 5:0.6492998046875, 6:0}
+    jointCom={0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0}
+
+    # positionControl({},"open")  
+    positionControl(jointCom) 
 
 
     print("Done.")

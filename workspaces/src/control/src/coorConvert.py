@@ -4,7 +4,9 @@ from positionControl import *
 import rospy
 L1=0.4
 L2=0.4
-def polar2joint(r,h=0.43,angle=0.1817734375):
+#mode = 1: gripper orthogonal to ground
+#mode = 0: gripper parallel to ground
+def polar2joint(r,h=0.43,angle=0.1817734375, mode=1):
     # r:float , h(height):float 
     # r is the horizontal distance between joint_1 and joint_5 
     # h is the height between joint_1 and joint_5
@@ -12,7 +14,7 @@ def polar2joint(r,h=0.43,angle=0.1817734375):
     b=2*np.arctan((8*h + (-(4*h**2 + 25*r**2)*(4*h**2 + 25*r**2 - 16))**(0.5))/(4*h**2 + 25*r**2 + 20*r))
     t1 = -a
     t3 = a+b
-    t5 = -b
+    t5 = -b+np.pi/2*mode
 
     # return theta1, theta3, theta5, which can be applied directly in positionControl()
     return {0:angle, 1:t1, 2:0, 3:t3, 4:0, 5:t5, 6:0}
@@ -22,9 +24,9 @@ def cartesian2polar(x,y,h=0.43):
     theta = np.arctan2(y,x)
     return [r,theta,h]
 
-def cartesian2joint(x,y,h=0.43):
+def cartesian2joint(x,y,h=0.43,mode=1):
     [r,theta,h] = cartesian2polar(x,y,h)
-    ret = polar2joint(r,h,theta)
+    ret = polar2joint(r,h,theta,mode)
     return ret
     
 def test():    
