@@ -164,7 +164,7 @@ class velocityControl(object):
                     self._limb.set_joint_velocities(dict(itertools.izip(self._limb.joint_names(), np.zeros(len(self._limb.joint_names())))))
                     break
         else: #AR Detect Mode on.
-            print(self.arDetectInfo)
+            # print(self.arDetectInfo)
             tfBuffer1 = tf2_ros.Buffer()
             tfListener1 = tf2_ros.TransformListener(tfBuffer1)
             tfBuffer2 = tf2_ros.Buffer()
@@ -192,10 +192,13 @@ class velocityControl(object):
 
                 try:
                     self.arDetectInfo['coords'][0] = tfBuffer1.lookup_transform('base', self.arDetectInfo['names'][0], rospy.Time())
-                    self.arDetectInfo['coords'][1] = tfBuffer2.lookup_transform('base', self.arDetectInfo['names'][1], rospy.Time())
                 except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
                     pass
 
+                try:
+                    self.arDetectInfo['coords'][1] = tfBuffer2.lookup_transform('base', self.arDetectInfo['names'][1], rospy.Time())
+                except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
+                    pass
                 # Once the end of the path has been reached, stop moving and break
                 if self._curIndex >= self._maxIndex:
                     # Set velocities to zero
@@ -321,52 +324,54 @@ class velocityControl(object):
 
 def main():
     #planner = PathPlanner("right_arm")
-    controller = velocityControl( Limb("right"))
+    controller = velocityControl(Limb("right"))
+    [start_x,start_y,h] = [0.49,-0.3,0.23+0.15] # ar_tag.z=-0.23, constant offset=+0.66
     
-    [start_x,start_y,h] = [0.54, 0.30, -0.00288962+0.38]
+    # [start_x,start_y,h] = [0.54, 0.30, -0.00288962+0.38]
     joints_position = coorConvert.cartesian2joint(start_x,start_y,h)
     positionControl.positionControl(jointCom=joints_position)
+    # positionControl.positionControl(jointCom=joints_position,gripperCom='calibrate')
+    # positionControl.positionControl(gripperCom='close')
+    # [start_x,start_y,h] = [0.54, 0.30, -0.00288962+0.420]
+    # joints_position = coorConvert.cartesian2joint(start_x,start_y,h)
+    # positionControl.positionControl(jointCom=joints_position)
 
-    [start_x,start_y,h] = [0.54, 0.30, -0.00288962+0.420]
-    joints_position = coorConvert.cartesian2joint(start_x,start_y,h)
-    positionControl.positionControl(jointCom=joints_position)
 
 
+    # while not rospy.is_shutdown():
+    #     try:
+    #         pointA = [0.54, 0.30]
+    #         pointB = [0.48, 0.08]
+    #         pointC = [0.72, 0.01]           
+    #         points = arDetect.generateLine(pointA,pointB)
+    #         points2 = arDetect.generateLine(pointB,pointC)
+    #         my_path = path(points,0.02,h)
+    #         my_path2 = path(points2,0.02,h)
+    #         plan = my_path.path_msg()       
+    #         plan2 = my_path2.path_msg()
+    #         controller = velocityControl( Limb("right"))
+    #         if my_path.valid:
+    #             flag=controller.execute_path(plan)
+    #             pass
+    #         else:
+    #             flag=0
 
-    while not rospy.is_shutdown():
-        try:
-            pointA = [0.54, 0.30]
-            pointB = [0.48, 0.08]
-            pointC = [0.72, 0.01]           
-            points = arDetect.generateLine(pointA,pointB)
-            points2 = arDetect.generateLine(pointB,pointC)
-            my_path = path(points,0.02,h)
-            my_path2 = path(points2,0.02,h)
-            plan = my_path.path_msg()       
-            plan2 = my_path2.path_msg()
-            controller = velocityControl( Limb("right"))
-            if my_path.valid:
-                flag=controller.execute_path(plan)
-                pass
-            else:
-                flag=0
+    #         if my_path2.valid:
+    #             flag=controller.execute_path(plan2)
+    #             pass
+    #         else:
+    #             flag=0
 
-            if my_path2.valid:
-                flag=controller.execute_path(plan2)
-                pass
-            else:
-                flag=0
+    #         if not flag:
+    #             raise Exception("Execution failed")
+    #     except Exception as e:
+    #         print e
+    #     else:
+    #         break
 
-            if not flag:
-                raise Exception("Execution failed")
-        except Exception as e:
-            print e
-        else:
-            break
-
-    [start_x,start_y,h] = [0.72, 0.01, -0.00288962+0.35]
-    joints_position = coorConvert.cartesian2joint(start_x,start_y,h)
-    positionControl.positionControl(jointCom=joints_position)
+    # [start_x,start_y,h] = [0.72, 0.01, -0.00288962+0.35]
+    # joints_position = coorConvert.cartesian2joint(start_x,start_y,h)
+    # positionControl.positionControl(jointCom=joints_position)
 
 
 if __name__ == '__main__': 

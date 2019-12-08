@@ -36,7 +36,9 @@ class path(object):
 	    # h is the height between joint_1 and joint_5
 	    r=self.points[:,0]
 	    theta=self.points[:,1]
-
+	    if ( np.sum((-(4*(h**2) + 25*np.square(r))*(4*h**2 + 25*np.square(r) - 16))< 0) >0 ):
+	    	rospy.loginfo("Position Error(sqrt < 0), stop running.")
+	    	return 'fault'
 	    a=2*np.arctan((8*h + np.sqrt(-(4*(h**2) + 25*np.square(r))*(4*h**2 + 25*np.square(r) - 16)))/(4*h**2 + 25*np.square(r) + 20*r) - (16*h)/(4*h**2 + 25*np.square(r) + 20*r))
 	    b=2*np.arctan((8*h + np.sqrt(-(4*(h**2) + 25*np.square(r))*(4*h**2 + 25*np.square(r) - 16)))/(4*h**2 + 25*np.square(r) + 20*r))
 	    t1 = -a
@@ -80,6 +82,8 @@ class path(object):
 			if (velocities[i] is np.nan):
 				velocities[i] = 0
 				self.valid = False
+
+		# print(velocities)
 		return velocities
 
 

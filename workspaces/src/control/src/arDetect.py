@@ -32,15 +32,37 @@ class coordinate(object):
         self.tfListener2 = tf2_ros.TransformListener(self.tfBuffer2)
         self.coord1 = []
         self.coord2 = []
-        self.origin = 0
+        self.origin = [0,0]
+        self.h = 0
         self.dectAR()
         self.setOrigin()
 
 
 
     def dectAR(self):
-        initialPoint = [0.49,0.58916,0.19804] #position for right_hand_camera
-        goalPoint = [0.49,-0.62146,0.19804] #position for right_hand_camera
+        initialPoint = [0.49,0.3,-0.05] #position for right_hand_camera
+        goalPoint = [0.49,-0.48,-0.05] #position for right_hand_camera
+        [start_x,start_y,h] = initialPoint
+        joints_position = coorConvert.cartesian2joint(start_x,start_y,h,mode=0)
+        positionControl.positionControl(jointCom=joints_position)
+
+        arInfo = {'names':[self.ar_frame1,self.ar_frame2],'coords':[self.coord1,self.coord2]}
+
+
+        try:            
+            points = generateLine(initialPoint,goalPoint)
+            plan = path(points,0.05,h,mode=0).path_msg()     
+            controller = velocityControl(Limb("right"),arDetectInfo=arInfo)
+            flag=controller.execute_path(plan)
+            self.coord1 = controller.arDetectInfo['coords'][0]
+            self.coord2 = controller.arDetectInfo['coords'][1]
+            if not flag:
+                raise Exception("Execution failed")
+        except Exception as e:
+            print e
+
+        initialPoint = [0.49,-0.48,-0.05] #position for right_hand_camera
+        goalPoint = [0.59,-0.48,-0.05] #position for right_hand_camera
         [start_x,start_y,h] = initialPoint
         joints_position = coorConvert.cartesian2joint(start_x,start_y,h,mode=0)
         positionControl.positionControl(jointCom=joints_position)
@@ -55,11 +77,33 @@ class coordinate(object):
             flag=controller.execute_path(plan)
             self.coord1 = controller.arDetectInfo['coords'][0]
             self.coord2 = controller.arDetectInfo['coords'][1]
-            flag = 1
             if not flag:
                 raise Exception("Execution failed")
         except Exception as e:
             print e
+
+        initialPoint = [0.59,-0.48,-0.05] #position for right_hand_camera
+        goalPoint = [0.59,0.3,-0.05] #position for right_hand_camera
+        [start_x,start_y,h] = initialPoint
+        joints_position = coorConvert.cartesian2joint(start_x,start_y,h,mode=0)
+        positionControl.positionControl(jointCom=joints_position)
+
+        arInfo = {'names':[self.ar_frame1,self.ar_frame2],'coords':[self.coord1,self.coord2]}
+
+
+        try:            
+            points = generateLine(initialPoint,goalPoint)
+            plan = path(points,0.05,h,mode=0).path_msg()          
+            controller = velocityControl(Limb("right"),arDetectInfo=arInfo)
+            flag=controller.execute_path(plan)
+            self.coord1 = controller.arDetectInfo['coords'][0]
+            self.coord2 = controller.arDetectInfo['coords'][1]
+            if not flag:
+                raise Exception("Execution failed")
+        except Exception as e:
+            print e
+
+
 
     def buildFrame(self):
         while not rospy.is_shutdown():
@@ -73,14 +117,14 @@ class coordinate(object):
     def setOrigin(self):
         if(self.coord1!=[] and self.coord2 !=[]):
             if(self.coord1.transform.translation.x < self.coord2.transform.translation.x):
-                self.origin = 1
+                self.origin = [self.coord1.transform.translation.x,self.coord1.transform.translation.y]
             elif (self.coord1.transform.translation.x > self.coord2.transform.translation.x):
-                self.origin = 2
+                self.origin = [self.coord2.transform.translation.x,self.coord2.transform.translation.y]
             else:
-                self.origin = -1
                 rospy.loginfo("Origin Set Fault.")
         else:
             print("AR Coords not found")
+            exit()
 
     def coordTransformation(self):
         pass
@@ -89,7 +133,7 @@ class coordinate(object):
 
 def test():
     rospy.init_node('testController', anonymous=True)
-    coor = coordinate('ar_marker_3','ar_marker_4')
+    coor = coordinate('ar_marker_4','ar_marker_5')
     print('ARframe1 is ',coor.coord1)
     print('ARframe2 is ',coor.coord2)
 
