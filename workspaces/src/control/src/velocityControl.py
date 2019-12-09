@@ -325,8 +325,8 @@ class velocityControl(object):
 def main():
     #planner = PathPlanner("right_arm")
     controller = velocityControl(Limb("right"))
-    [start_x,start_y,h] = [0.49,-0.3,0.23+0.15] # ar_tag.z=-0.23, constant offset=+0.66
-    
+    #[start_x,start_y,h] = [0.49,-0.3,0.23+0.15] # ar_tag.z=-0.23, constant offset=+0.66
+    [start_x,start_y,h] = [0.6712,0.1505,0.22+0.15]
     # [start_x,start_y,h] = [0.54, 0.30, -0.00288962+0.38]
     joints_position = coorConvert.cartesian2joint(start_x,start_y,h)
     positionControl.positionControl(jointCom=joints_position)

@@ -11,7 +11,14 @@ def generateLine(pointA,pointB):
     numPoints = int(length / 0.01)
     dx = (- pointA[0] + pointB[0])/numPoints
     dy = (- pointA[1] + pointB[1])/numPoints
-    points = [[pointA[0]+i*dx, pointA[1]+i*dy] for i in range(numPoints)]
+    points = [[pointA[0]+i*dx, pointA[1]+i*dy] for i in range(numPoints+1)]
+    return points
+
+def generateLineV(pointA,pointB):
+    length = np.abs(pointA[2]-pointB[2])
+    numPoints = int(length / 0.01)
+    dh = (- pointA[2] + pointB[2])/numPoints
+    points = [[pointA[0], pointA[1], pointA[2]+i*dh] for i in range(numPoints+1)]
     return points
 
 def generateArc():
