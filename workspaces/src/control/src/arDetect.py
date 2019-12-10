@@ -48,7 +48,7 @@ class coordinate(object):
 
     def dectAR(self):
         initialPoint = [0.49,0.3,-0.05] #position for right_hand_camera
-        goalPoint = [0.49,-0.48,-0.05] #position for right_hand_camera
+        goalPoint = [0.49,-0.38,-0.05] #position for right_hand_camera
         [start_x,start_y,h] = initialPoint
         joints_position = coorConvert.cartesian2joint(start_x,start_y,h,mode=0)
         positionControl.positionControl(jointCom=joints_position)
@@ -68,8 +68,8 @@ class coordinate(object):
         except Exception as e:
             print e
 
-        initialPoint = [0.49,-0.48,-0.05] #position for right_hand_camera
-        goalPoint = [0.59,-0.48,-0.05] #position for right_hand_camera
+        initialPoint = [0.49,-0.38,-0.05] #position for right_hand_camera
+        goalPoint = [0.69,-0.38,-0.05] #position for right_hand_camera
         [start_x,start_y,h] = initialPoint
         joints_position = coorConvert.cartesian2joint(start_x,start_y,h,mode=0)
         positionControl.positionControl(jointCom=joints_position)
@@ -89,8 +89,8 @@ class coordinate(object):
         except Exception as e:
             print e
 
-        initialPoint = [0.59,-0.48,-0.05] #position for right_hand_camera
-        goalPoint = [0.59,0.3,-0.05] #position for right_hand_camera
+        initialPoint = [0.69,-0.38,-0.05] #position for right_hand_camera
+        goalPoint = [0.69,0.25,-0.05] #position for right_hand_camera
         [start_x,start_y,h] = initialPoint
         joints_position = coorConvert.cartesian2joint(start_x,start_y,h,mode=0)
         positionControl.positionControl(jointCom=joints_position)

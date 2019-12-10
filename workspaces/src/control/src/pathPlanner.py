@@ -26,7 +26,7 @@ class path(object):
 		self.mode = mode
 		self.number = len(points)
 		self.positions = self.len2angle(self.height)
-		self.positions_offset = self.len2angle(self.height+0.01)
+		self.positions_offset = self.len2angle(self.height+0.00)
 		self.time_interval = self.time_interval(np.array(points))
 		self.velocities = self.velocities() # n*7
 		self.valid =True
@@ -60,7 +60,7 @@ class path(object):
 			exit()
 		robot_r = np.sqrt(robot_r_square)
 		t_offset = np.arcsin(s/r)
-		ret=np.transpose(np.vstack((robot_r+r_offset,t-t_offset)))
+		ret=np.transpose(np.vstack((robot_r-r_offset,t-t_offset)))
 		return ret
 
 	def time_interval(self,points):
