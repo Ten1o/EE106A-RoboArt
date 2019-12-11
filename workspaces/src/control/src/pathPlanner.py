@@ -186,7 +186,7 @@ class vpath(object):
 			if (velocities[i] is np.nan):
 				velocities[i] = 0
 				self.valid = False
-
+		velocities[0] = np.array([0,0,0,0,0,0,0])
 		# print(velocities)
 		return velocities
 

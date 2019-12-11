@@ -169,6 +169,8 @@ class velocityControl(object):
             tfListener1 = tf2_ros.TransformListener(tfBuffer1)
             tfBuffer2 = tf2_ros.Buffer()
             tfListener2 = tf2_ros.TransformListener(tfBuffer2)
+            tfBuffer3 = tf2_ros.Buffer()
+            tfListener3 = tf2_ros.TransformListener(tfBuffer3)
 
             while not rospy.is_shutdown():
                 # Find the time from start
@@ -197,6 +199,11 @@ class velocityControl(object):
 
                 try:
                     self.arDetectInfo['coords'][1] = tfBuffer2.lookup_transform('base', self.arDetectInfo['names'][1], rospy.Time())
+                except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
+                    pass
+
+                try:
+                    self.arDetectInfo['coords'][2] = tfBuffer2.lookup_transform('base', self.arDetectInfo['names'][2], rospy.Time())
                 except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
                     pass
                 # Once the end of the path has been reached, stop moving and break
@@ -326,7 +333,7 @@ def main():
     #planner = PathPlanner("right_arm")
     controller = velocityControl(Limb("right"))
     #[start_x,start_y,h] = [0.49,-0.3,0.23+0.15] # ar_tag.z=-0.23, constant offset=+0.66
-    [start_x,start_y,h] = [0.6712,0.1505,0.23+0.20]
+    [start_x,start_y,h] = [0.6712,0.1505,0.23+0.213]
     # [start_x,start_y,h] = [0.54, 0.30, -0.00288962+0.38]
     joints_position = coorConvert.cartesian2joint(start_x,start_y,h)
     positionControl.positionControl(jointCom=joints_position)

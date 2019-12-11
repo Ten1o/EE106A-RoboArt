@@ -221,8 +221,10 @@ def main():
     # jointCom={0:0.27098046875, 1:-0.503345703125, 2:0, 3:1.4947724609375, 4:0, 5:0.6492998046875, 6:0}
     jointCom={0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0}
 
-    # positionControl({},"open")  
-    positionControl(jointCom) 
+    # positionControl({},"calibrate")  
+    # positionControl({},"open")
+    positionControl({},"close")
+    #positionControl(jointCom) 
 
 
     print("Done.")

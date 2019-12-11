@@ -8,7 +8,7 @@ import tf2_ros
 #pointA,pointB = [x,y]
 def generateLine(pointA,pointB):
     length = np.sqrt((pointA[0]-pointB[0]) ** 2 + (pointA[1]-pointB[1]) ** 2)
-    numPoints = int(length / 0.01)
+    numPoints = int(length / 0.002)
     dx = (- pointA[0] + pointB[0])/numPoints
     dy = (- pointA[1] + pointB[1])/numPoints
     points = [[pointA[0]+i*dx, pointA[1]+i*dy] for i in range(numPoints+1)]
@@ -30,15 +30,19 @@ def generateLines(points):
     pass
 
 class coordinate(object):
-    def __init__(self,ar_frame1,ar_frame2):
+    def __init__(self,ar_frame1,ar_frame2,ar_frame_pen):
         self.ar_frame1 = ar_frame1
         self.ar_frame2 = ar_frame2
+        self.ar_frame_pen = ar_frame_pen
         self.tfBuffer1 = tf2_ros.Buffer()
         self.tfListener1 = tf2_ros.TransformListener(self.tfBuffer1)
         self.tfBuffer2 = tf2_ros.Buffer()
         self.tfListener2 = tf2_ros.TransformListener(self.tfBuffer2)
+        self.tfBuffer3 = tf2_ros.Buffer()
+        self.tflistener3 = tf2_ros.TransformListener(self.tfBuffer3)
         self.coord1 = []
         self.coord2 = []
+        self.coordPen = []
         self.origin = [0,0]
         self.h = 0
         self.dectAR()
@@ -53,16 +57,17 @@ class coordinate(object):
         joints_position = coorConvert.cartesian2joint(start_x,start_y,h,mode=0)
         positionControl.positionControl(jointCom=joints_position)
 
-        arInfo = {'names':[self.ar_frame1,self.ar_frame2],'coords':[self.coord1,self.coord2]}
+        arInfo = {'names':[self.ar_frame1,self.ar_frame2,self.ar_frame_pen],'coords':[self.coord1,self.coord2,self.coordPen]}
 
 
         try:            
             points = generateLine(initialPoint,goalPoint)
-            plan = path(points,0.05,h,mode=0).path_msg()     
+            plan = path(points,0.08,h,mode=0).path_msg()     
             controller = velocityControl(Limb("right"),arDetectInfo=arInfo)
             flag=controller.execute_path(plan)
             self.coord1 = controller.arDetectInfo['coords'][0]
             self.coord2 = controller.arDetectInfo['coords'][1]
+            self.coordPen = controller.arDetectInfo['coords'][2]
             if not flag:
                 raise Exception("Execution failed")
         except Exception as e:
@@ -74,16 +79,17 @@ class coordinate(object):
         joints_position = coorConvert.cartesian2joint(start_x,start_y,h,mode=0)
         positionControl.positionControl(jointCom=joints_position)
 
-        arInfo = {'names':[self.ar_frame1,self.ar_frame2],'coords':[self.coord1,self.coord2]}
+        arInfo = {'names':[self.ar_frame1,self.ar_frame2,self.ar_frame_pen],'coords':[self.coord1,self.coord2,self.coordPen]}
 
 
         try:            
             points = generateLine(initialPoint,goalPoint)
-            plan = path(points,0.05,h,mode=0).path_msg()          
+            plan = path(points,0.08,h,mode=0).path_msg()          
             controller = velocityControl(Limb("right"),arDetectInfo=arInfo)
             flag=controller.execute_path(plan)
             self.coord1 = controller.arDetectInfo['coords'][0]
             self.coord2 = controller.arDetectInfo['coords'][1]
+            self.coordPen = controller.arDetectInfo['coords'][2]
             if not flag:
                 raise Exception("Execution failed")
         except Exception as e:
@@ -95,16 +101,17 @@ class coordinate(object):
         joints_position = coorConvert.cartesian2joint(start_x,start_y,h,mode=0)
         positionControl.positionControl(jointCom=joints_position)
 
-        arInfo = {'names':[self.ar_frame1,self.ar_frame2],'coords':[self.coord1,self.coord2]}
+        arInfo = {'names':[self.ar_frame1,self.ar_frame2,self.ar_frame_pen],'coords':[self.coord1,self.coord2,self.coordPen]}
 
 
         try:            
             points = generateLine(initialPoint,goalPoint)
-            plan = path(points,0.05,h,mode=0).path_msg()          
+            plan = path(points,0.08,h,mode=0).path_msg()          
             controller = velocityControl(Limb("right"),arDetectInfo=arInfo)
             flag=controller.execute_path(plan)
             self.coord1 = controller.arDetectInfo['coords'][0]
             self.coord2 = controller.arDetectInfo['coords'][1]
+            self.coordPen = controller.arDetectInfo['coords'][2]
             if not flag:
                 raise Exception("Execution failed")
         except Exception as e:
@@ -135,6 +142,7 @@ class coordinate(object):
 
     def coordTransformation(self):
         pass
+
 
 
 
