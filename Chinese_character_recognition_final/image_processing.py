@@ -7,7 +7,7 @@ import huzy_stroke
 import chinese_character_rec
 
 
-threshold = 200
+threshold = 70
 
 
 character_dir = {"0": "一", "1": "丁", "2": "七", "3": "万", "4": "丈", "5": "三", "6": "上", "7": "下", "8": "不", "9": "与", 
@@ -21,20 +21,20 @@ def trim(img):
 	col_tail = 0
 
 	for i in range(0, row):
-		if np.where(img[i] < threshold)[0].size > 0:
+		if np.where(img[i] < threshold)[0].size > 3:
 			row_head = i
 			break
 
 	for i in range(row - 1, 0, -1):
-		if np.where(img[i] < threshold)[0].size > 0:
+		if np.where(img[i] < threshold)[0].size > 3:
 			row_tail = i
 			break
 	for i in range(0, col):
-		if np.where(img[:, i] < threshold)[0].size > 0:
+		if np.where(img[:, i] < threshold)[0].size > 3:
 			col_head = i
 			break
 	for i in range(col - 1, 0, -1):
-		if np.where(img[:, i] < threshold)[0].size > 0:
+		if np.where(img[:, i] < threshold)[0].size > 3:
 			col_tail = i
 			break
 	return (row_head, row_tail, col_head, col_tail)
