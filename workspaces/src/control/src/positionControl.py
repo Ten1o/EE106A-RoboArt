@@ -223,7 +223,7 @@ def main():
 
     # positionControl({},"calibrate")  
     # positionControl({},"open")
-    positionControl({},"close")
+    positionControl({},"open")
     #positionControl(jointCom) 
 
 
