@@ -1,6 +1,6 @@
 # Chinese character recognition
 
-Pytorch 实现中文手写汉字识别
+Recognize Chinese handwriting characters by Pytorch 
 
 ## Environment
 Ubuntu: 16.04
