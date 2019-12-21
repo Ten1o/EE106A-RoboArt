@@ -10,7 +10,11 @@ In `dev` branch, there is a `GLHF/` folder containing a jupyter notebook that wi
 
 Unfortunately this implementation does not find a Euler path, even if the graph is somehow Eulerian graph. (by somehow I mean almost impossible, unless magic) 
 
-## Dependencies
+## Usage
+
+```python -m oneStroke /path/to/img```
+
+## Dependency
 
 ```pip install -r requirements.txt```
 
