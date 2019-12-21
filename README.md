@@ -1,5 +1,7 @@
 # EE106A Project RoboArt
 
+![roboart-logo](roboart-logo.svg)
+
 ## Shimo Workspace
 https://shimo.im/space/alqnrv4GG2fQs2qo
 
