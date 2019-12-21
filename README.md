@@ -1,7 +1,7 @@
-# EE106A Project
+# EE106A Project RoboArt
 
 ## Shimo Workspace
 https://shimo.im/space/alqnrv4GG2fQs2qo
 
-“且”字样例：
-[[[806.0, 642.0], [290.0, 635.0]], [[795.0, 627.0], [828.0, 335.0], [314.0, 332.0]], [[638.0, 617.0], [656.0, 447.0]], [[481.0, 615.0], [505.0, 417.0]], [[268.0, 890.0], [296.0, 85.0]]]
+## Control part
+Include coordinate transformation, path planning and canvas locating
